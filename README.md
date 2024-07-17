@@ -2,7 +2,7 @@
 Model of sprang mass with damper with control based on the CHRONOproject
 The model is represented as a rolling wheel which is composed with a tire and rim connected by a spring and damper and with a mass attached through a spring with a damper.
 
-![alt text](https://github.com/AlexProher/double_SDM/tree/main/Scheme.png)
+![alt text](https://github.com/AlexProher/double_SDM/tree/main/Scheme.png?raw=true "Scheme of the model")
 
 The project is based on the Matlab Simulink control with coSimulation on CHRONO.
 
