@@ -8,36 +8,36 @@
 	"Rim":{
 		"rRim": 0.7,
 		"hRim": 0.22,
-		"density": 5.0,
-		"velocity": 6
+		"density": 1.0,
+		"velocity": 10
 	},
 
 	"Tire":{
 		"rTire": 1,
 		"hTire": 0.2,
 		"density": 1000.0,
-		"velocity": 6
+		"velocity": 10
 	},
 
 	"Body":
 	{
 		"xSize": 2.0,
 		"ySize": 1.0,
-		"zSize": 2.0,
+		"zSize": 1.0,
 		"density": 0.25
 	},
 
 	"SD_1":
 	{
-		"spring": 200,
-		"damping": 5,
+		"spring": 50,
+		"damping": 2,
 		"base": 2
 	},
 
 	"SD_2":
 	{
 		"spring": 1000,
-		"damping": 50,
+		"damping": 5,
 		"base": 0.1
 	},
 

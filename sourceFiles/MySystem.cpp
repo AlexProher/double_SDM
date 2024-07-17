@@ -193,6 +193,10 @@ ChVector3d MySystem::GetRimPos() {
 	return rim->GetPos();
 }
 
+ChVector3d MySystem::GetTirePos() {
+	return tire->GetPos();
+}
+
 ChVector3d MySystem::GetRimPosRel() {
 	return tireSuspentionLink->GetPoint2Rel();
 }

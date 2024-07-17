@@ -89,6 +89,8 @@ public:
 
 	ChVector3d GetRimPos();
 
+	ChVector3d GetTirePos();
+
 	ChVector3d GetRimPosRel();
 
 	void SetRimPos(ChVector3d);

@@ -53,7 +53,7 @@ void ReadFileJSON(const std::string& filename, Document& d) {
 void CreateBrick(ChSystemNSC& sys, ChVector3d brickPos) {
     auto brick_mat = chrono_types::make_shared<ChContactMaterialNSC>();
     auto brick_vis_mat = chrono_types::make_shared<ChVisualMaterial>();
-    auto brick = chrono_types::make_shared<ChBodyEasyBox>(2, 0.1f, 2, 1, true, true, brick_mat);
+    auto brick = chrono_types::make_shared<ChBodyEasyBox>(2, 0.2f, 2, 1, true, true, brick_mat);
     brick->SetPos(brickPos);
     brick->GetVisualShape(0)->SetTexture(GetChronoDataFile("textures/redwhite.png"));
     sys.AddBody(brick);
@@ -61,7 +61,7 @@ void CreateBrick(ChSystemNSC& sys, ChVector3d brickPos) {
 
 int main(int argc, char* argv[]) {
 
-    bool control = false;
+    bool control = true;
 
     Document config;
     ReadFileJSON("../../sourceFiles/configuration.json", config);
@@ -178,8 +178,8 @@ int main(int argc, char* argv[]) {
             //data_out(3) = -cart.getBodyVel().x();
             //data_out(2) = -cart.getBodyPos().x();
             //data_out(1) = cart.getSphereAngleDt().z();
-            data_out(0) = newSystem.GetRimPos().y() - config["Rim"]["rRim"].GetDouble();
-            data_out(1) = newSystem.GetBodyPos().y() - config["Rim"]["rRim"].GetDouble()- config["SD"]["base"].GetDouble();
+            data_out(0) = newSystem.GetTirePos().y() - config["Tire"]["rTire"].GetDouble();
+            data_out(1) = newSystem.GetBodyPos().y() - config["Tire"]["rTire"].GetDouble() - config["SD_1"]["base"].GetDouble() - config["SD_2"]["base"].GetDouble();
             std::cout << "--- Y wheelPos: " << data_out(0)
                     << "--- Y bodyPosRel: " << data_out(1)
                      << "--- data_in: " << data_in(0)
