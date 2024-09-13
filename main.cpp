@@ -61,7 +61,8 @@ void CreateBrick(ChSystemNSC& sys, ChVector3d brickPos) {
 
 int main(int argc, char* argv[]) {
 
-    bool control = true;
+    bool control;
+    double dt;
 
     Document config;
     ReadFileJSON("../../sourceFiles/configuration.json", config);
@@ -83,6 +84,7 @@ int main(int argc, char* argv[]) {
         MySystem newSystem(config);
         newSystem.AddSystem(sys);
         newSystem.SetTireVel(config["Tire"]["velocity"].GetDouble());
+        control = config["General"]["Control"].GetBool();
 
         CreateBrick(sys, ChVector3d(20, 0.2f, 0));
         

@@ -1,7 +1,11 @@
 {
+	"General":{
+		"Control": false
+		},
+
 	"Position":{
 		"x": 0,
-		"y": 0.5,
+		"y": 1.1,
 		"z": 0
 	},
 
@@ -9,15 +13,19 @@
 		"rRim": 0.7,
 		"hRim": 0.22,
 		"density": 1.0,
-		"velocity": 10
+		"velocity": 0
 	},
 
 	"Tire":{
 		"rTire": 1,
 		"hTire": 0.2,
-		"density": 1000.0,
-		"velocity": 10
+		"density": 10.0,
+		"velocity": 0
 	},
+
+	"Motor":{
+		"Speed": -2
+		},
 
 	"Body":
 	{

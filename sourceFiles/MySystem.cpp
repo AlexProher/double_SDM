@@ -43,6 +43,12 @@ MySystem::MySystem(Document& config) {
 		tireDensity = config["Tire"]["density"].GetDouble();
 	}
 
+	if (config.HasMember("Motor")) {
+		motorRotation = config["Motor"]["Speed"].GetDouble();
+		std::cout << "Motor speed - " << motorRotation << "\n";
+	}
+	motorFunction = chrono_types::make_shared<ChFunctionConst>(motorRotation);
+
 	if (config.HasMember("Floor")) {
 		xFloorDim = config["Floor"]["x"].GetDouble();
 		std::cout << "x Floor size - " << xFloorDim << "\n";
@@ -213,6 +219,13 @@ void MySystem::UpdateActForce(double controlForce) {
 	bodySuspentionLink->SetActuatorForce(actForce * body->GetMass() + controlForce);
 }
 
+void MySystem::CreateMotor() {
+
+	auto linkPos = tire->GetPos();
+	motor = chrono_types::make_shared<ChLinkMotorRotationSpeed>();
+	motor->Initialize(tire, tireAxis, ChFrame<>(linkPos, QuatFromAngleZ(CH_PI_2)));
+	motor->SetSpeedFunction(motorFunction);
+}
 
 void MySystem::AddSystem(ChSystemNSC& sys) {
 	CreateFloor();
@@ -234,6 +247,7 @@ void MySystem::AddSystem(ChSystemNSC& sys) {
 
 	LinkSuspention();
 	LinkWheelSuspention();
+	
 
 	sys.AddLink(bodySuspentionLink);
 	sys.AddLink(tireSuspentionLink);
@@ -246,6 +260,9 @@ void MySystem::AddSystem(ChSystemNSC& sys) {
 
 	sys.AddLink(holdBodyRotationLink);
 	sys.AddLink(holdRimRotationLink);
+
+	CreateMotor();
+	sys.Add(motor);
 
 
 }

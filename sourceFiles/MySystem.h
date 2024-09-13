@@ -38,6 +38,10 @@ private:
 	std::shared_ptr<ChLinkMateSpherical> holdBodyRotationLink;
 	std::shared_ptr<ChLinkMateSpherical> holdRimRotationLink;
 
+	std::shared_ptr<ChLinkMotorRotationSpeed> motor;
+	std::shared_ptr<ChFunctionConst> motorFunction;
+	double motorRotation = -2;
+
 	std::shared_ptr<ChForce> frc = chrono_types::make_shared<ChForce>();
 
 
@@ -100,6 +104,8 @@ public:
 	void UpdateActForce(double);
 
 	void LinkBodies();
+
+	void CreateMotor();
 
 	void LinkSuspention();
 
