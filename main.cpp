@@ -21,7 +21,7 @@
 #include "chrono/core/ChRealtimeStep.h"
 #include "chrono/collision/ChCollisionSystem.h"
 #include "chrono/utils/ChSocketCommunication.h"
-#include "MySystem.h"
+#include "SourceFiles/MySystem.h"
 
 #include <fstream>
 
