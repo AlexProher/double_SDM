@@ -1,0 +1,25 @@
+{
+	"General": {
+		"Control": false
+	},
+
+	"Position": {
+		"x": 0,
+		"y": 0,
+		"z": 0
+	},
+
+	"Dimention": {
+		"x": 5.0,
+		"y": 5.0,
+		"z": 5.0
+	},
+	"VerticalDisplacement": {
+		"maxDisp": 0.2,
+		"minDisp": -0.2,
+		"rate": 0.01,
+		"amplitude": 0.2,
+		"phase": 0,
+		"freq": 0.1
+	}
+}

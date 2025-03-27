@@ -98,7 +98,7 @@ endif()
 
 set(MY_FILES main.cpp)
 
-add_executable(double_SDM ${MY_FILES} sourceFiles/MySystem.h sourceFiles/MySystem.cpp)
+add_executable(double_SDM ${MY_FILES} sourceFiles/MySystem.h sourceFiles/MySystem.cpp sourceFiles/LoadingSystem.h sourceFiles/LoadingSystem.cpp)
 
 #--------------------------------------------------------------
 # Set properties for the executable target

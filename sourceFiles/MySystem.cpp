@@ -96,9 +96,9 @@ MySystem::MySystem(Document& config) {
 void MySystem::CreateFloor() {
 	auto floorMat = chrono_types::make_shared<ChContactMaterialNSC>();
 	auto floorVisMat = chrono_types::make_shared<ChVisualMaterial>();
-	floor = chrono_types::make_shared<ChBodyEasyBox>(xFloorDim, yFloorDim, zFloorDim, 1, true, true, floorMat);
+	floor = chrono_types::make_shared<ChBodyEasyBox>(xFloorDim, yFloorDim, zFloorDim, 1, false, false);//, floorMat);
 	floor->SetPos(ChVector3d(0, -yFloorDim/2, 0));
-	floor->GetVisualShape(0)->SetTexture(GetChronoDataFile("textures/bluewhite.png"), 100, 100);
+	//floor->GetVisualShape(0)->SetTexture(GetChronoDataFile("textures/bluewhite.png"), 100, 100);
 	floor->SetFixed(true);
 }
 
@@ -137,7 +137,8 @@ void MySystem::CreateBody() {
 	auto bodyVisMat = chrono_types::make_shared<ChVisualMaterial>();
 	body = chrono_types::make_shared<ChBodyEasyBox>(xDim, yDim, zDim, bodyDensity, true, true, bodyMat);
 	body->SetPos(ChVector3d(xPos, yPos + bodySuspBase + tireSuspBase, zPos));
-	body->GetVisualShape(0)->SetColor(ChColor(0.8, 0.7, 0.7));
+	body->GetVisualShape(0)->SetColor(ChColor(float(0.8), float(0.7), float(0.7)));
+	body->SetFixed(false);
 
 }
 

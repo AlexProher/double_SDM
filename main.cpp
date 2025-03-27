@@ -22,6 +22,8 @@
 #include "chrono/collision/ChCollisionSystem.h"
 #include "chrono/utils/ChSocketCommunication.h"
 #include "SourceFiles/MySystem.h"
+#include "SourceFiles/LoadingSystem.h"
+
 
 #include <fstream>
 
@@ -62,13 +64,15 @@ void CreateBrick(ChSystemNSC& sys, ChVector3d brickPos) {
 int main(int argc, char* argv[]) {
 
     bool control;
-    double dt;
 
-    Document config;
-    ReadFileJSON("../../sourceFiles/configuration.json", config);
+    Document systemConfig;
+    ReadFileJSON("../../sourceFiles/systemConfiguration.json", systemConfig);
+
+    Document loadConfig;
+    ReadFileJSON("../../sourceFiles/LoadingConfiguration.json", loadConfig);
     //ReadFileJSON("../sourceFiles/configuration.json", config);
 
-    assert(config.HasMember("Position"));
+    //assert(config.HasMember("Position"));
     //config.ParseStream(isw);
     char val;
     try {
@@ -80,13 +84,15 @@ int main(int argc, char* argv[]) {
         sys.SetCollisionSystemType(collision_type);
 
         // Create a Chrono physical system
+        LoadingSystem loadingSystem(loadConfig);
+        loadingSystem.AddSystem(sys);
 
-        MySystem newSystem(config);
+        MySystem newSystem(systemConfig);
         newSystem.AddSystem(sys);
-        newSystem.SetTireVel(config["Tire"]["velocity"].GetDouble());
-        control = config["General"]["Control"].GetBool();
+        newSystem.SetTireVel(systemConfig["Tire"]["velocity"].GetDouble());
+        control = systemConfig["General"]["Control"].GetBool();
 
-        CreateBrick(sys, ChVector3d(20, 0.2f, 0));
+        // CreateBrick(sys, ChVector3d(20, 0.2f, 0));
         
 
         // Add a socket framework object
@@ -123,16 +129,15 @@ int main(int argc, char* argv[]) {
         data_in.setZero();
         data_out.setZero();
 
-        double mytime = 0;
         double histime = 0;
 
         //// Here the 'dt' must be the same of the sampling period that is
         //// entered in the CEcosimulation block
 
         double dt = 0.001;
-        double actCamPosX = config["Camera"]["x"].GetDouble();
-        double actCamPosY = config["Camera"]["y"].GetDouble();
-        double actCamPosZ = config["Camera"]["z"].GetDouble();
+        double actCamPosX = systemConfig["Camera"]["x"].GetDouble();
+        double actCamPosY = systemConfig["Camera"]["y"].GetDouble();
+        double actCamPosZ = systemConfig["Camera"]["z"].GetDouble();
 
         // Optionally, set color and/or texture for visual assets
 
@@ -164,13 +169,15 @@ int main(int argc, char* argv[]) {
             // Render scene
             vis->BeginScene();
             vis->Render();
+            tools::drawSpring(vis.get(), 0.3, newSystem.GetBodyPos(), newSystem.GetRimPos(),
+                ChColor(0.59f, 0.08f, 0.08f), 65, 5, false);
+
             vis->EndScene();
 
             actCamPosX = newSystem.GetBodyPos().x();
 
-            vis->UpdateCamera(ChVector3d(actCamPosX, actCamPosY, actCamPosZ), newSystem.GetBodyPos());
-            //tools::drawSpring(vis.get(), 0.3, newSystem.GetBodyPos(), newSystem.GetWheelPos(),
-            //                            ChColor(0.59f, 0.08f, 0.08f), 80, 10, true);
+            //vis->UpdateCamera(ChVector3d(actCamPosX, actCamPosY, actCamPosZ), newSystem.GetBodyPos());
+
 
             // Perform the integration stpe
             sys.DoStepDynamics(dt);
@@ -180,8 +187,11 @@ int main(int argc, char* argv[]) {
             //data_out(3) = -cart.getBodyVel().x();
             //data_out(2) = -cart.getBodyPos().x();
             //data_out(1) = cart.getSphereAngleDt().z();
-            data_out(0) = newSystem.GetTirePos().y() - config["Tire"]["rTire"].GetDouble();
-            data_out(1) = newSystem.GetBodyPos().y() - config["Tire"]["rTire"].GetDouble() - config["SD_1"]["base"].GetDouble() - config["SD_2"]["base"].GetDouble();
+
+            loadingSystem.SetVerticalPosition(time*10);
+
+            data_out(0) = newSystem.GetTirePos().y() - systemConfig["Tire"]["rTire"].GetDouble();
+            data_out(1) = newSystem.GetBodyPos().y() - systemConfig["Tire"]["rTire"].GetDouble() - systemConfig["SD_1"]["base"].GetDouble() - systemConfig["SD_2"]["base"].GetDouble();
             std::cout << "--- Y wheelPos: " << data_out(0)
                     << "--- Y bodyPosRel: " << data_out(1)
                      << "--- data_in: " << data_in(0)
